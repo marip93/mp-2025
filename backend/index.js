@@ -1,7 +1,13 @@
 const express = require('express');
 
+const generospeliculasmockRouter = require('./routes/generospeliculasmock');
+
+
 // crear servidor
 const app = express();
+
+app.use(express.json());
+app.use(generospeliculasmockRouter);
 
 // controlar ruta
 app.get('/', (req, res) => {
