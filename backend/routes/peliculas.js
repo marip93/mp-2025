@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../base-orm/sequelize-init');
 const { Op, ValidationError } = require('sequelize');
+const { auth } = require('../seguridad/auth');
 
 router.get('/api/peliculas', async function (req, res, next) {
     // #swagger.tags = ['Películas']
@@ -165,6 +166,35 @@ router.delete("/api/peliculas/:id", async (req, res) => {
             throw err;
         }
     }
+});
+
+// ---------------Seguridad-------------------
+router.get('/api/jwt/peliculas', auth.authenticateJWT, async function (req, res, next) {
+    /* #swagger.security = [{
+        "bearerAuth1": []
+    }] */
+
+    // #swagger.tags = ['Películas']
+    // #swagger.summary = 'Obtener todas las películas (con JWT), solo para el rol admin'
+    const { rol } = res.locals.user;
+    if (rol !== 'admin') {
+        return res.status(403).json({ message: "No tienes permiso para acceder a esta ruta" });
+    }
+
+    let pelis = await db.peliculas.findAll({
+        attributes: [
+            'IdPelicula', 
+            'Titulo', 
+            'Anio_lanzamiento', 
+            'Visto', 
+            'Fecha_visualizacion',
+            'Rating',
+            'Sinopsis', 
+            'Review'
+        ],
+        order: [["Titulo", "ASC"]],
+    });
+    res.json(pelis);
 });
 
 module.exports = router;
