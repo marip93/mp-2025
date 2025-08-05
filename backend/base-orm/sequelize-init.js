@@ -104,14 +104,47 @@ const peliculas = sequelize.define(
                 }
             },
         },
+        timestamps: false
+    }
+);
+
+const peliculas_generos = sequelize.define(
+    "peliculas_generos",
+    {
+        IdPelicula: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: peliculas,
+                key: "IdPelicula"
+            }
+        },
+        IdGenero: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: generospeliculas,
+                key: "IdGenero"
+            }
+        }
     },
     {
         timestamps: false
     }
 );
 
+peliculas.belongsToMany(generospeliculas, {
+    through: peliculas_generos,
+    foreignKey: "IdPelicula",
+    otherKey: "IdGenero"
+});
+generospeliculas.belongsToMany(peliculas, {
+    through: peliculas_generos,
+    foreignKey: "IdGenero",
+    otherKey: "IdPelicula"
+});
+
 module.exports = {
     sequelize,
     generospeliculas,
     peliculas,
+    peliculas_generos
 };
