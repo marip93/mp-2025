@@ -31,7 +31,7 @@ router.get('/api/generospeliculasmock/:id', async function (req, res) {
 // Obtener un género de película por su Género
 router.get('/api/generospeliculasmock/Genero/:genero', async function (req, res) {
     let generoPelicula = arr_GenerosPeliculasMock.find(
-      (x) => x.Genero.toLowerCase() === req.params.genero.toLowerCase()
+      (x) => x.Genero.toUpperCase() === req.params.genero.toLowerCase()
     );
     if (generoPelicula) res.json(generoPelicula);
     else res.status(404).json({ message: 'Género de película no encontrado' });
