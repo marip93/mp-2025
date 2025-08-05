@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
 const generospeliculasRouter = require('./routes/generospeliculas');
 app.use(generospeliculasRouter);
 
+const peliculasRouter = require('./routes/peliculas');
+app.use(peliculasRouter);
+
 // levantar servidor
 const port = 3000;
 app.listen(port, () => {
