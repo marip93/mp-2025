@@ -13,7 +13,7 @@ const generospeliculas = sequelize.define(
             autoIncrement: true,
         },
         Genero: {
-            type: DataTypes.STRING(30),
+            type: DataTypes.STRING(50),
             allowNull: false,
             validate: {
                 notEmpty: {
@@ -21,8 +21,8 @@ const generospeliculas = sequelize.define(
                     msg: "Género no puede estar vacío",
                 },
                 len: {
-                    args: [5, 30],
-                    msg: "Género debe tener entre 3 y 50 caracteres",
+                    args: [5, 50],
+                    msg: "Género debe tener entre 5 y 50 caracteres",
                 },
             },
             unique: {
@@ -30,6 +30,9 @@ const generospeliculas = sequelize.define(
                 msg: "Género ya existe",
             },
         },
+    },
+    {
+        timestamps: false
     },
     {
         //pasar a mayúsculas
@@ -40,8 +43,7 @@ const generospeliculas = sequelize.define(
                 }
             },
         },
-        timestaps: false
-    }
+    },
 );
 
 const peliculas = sequelize.define(

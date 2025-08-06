@@ -11,20 +11,33 @@ require('./base-orm/sqlite-init'); //crear la base de datos y las tablas si no e
 app.use(express.json());
 app.use(generospeliculasmockRouter);
 
-// controlar ruta
-app.get('/', (req, res) => {
-  res.send('Hola Mundo');
-});
-
+// RUTAS
 const generospeliculasRouter = require('./routes/generospeliculas');
 app.use(generospeliculasRouter);
 
 const peliculasRouter = require('./routes/peliculas');
 app.use(peliculasRouter);
 
-// levantar servidor
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+
+app.get('/', (req, res) => {
+  res.send('Hola Mundo');
 });
+
+app.get('/_isalive', (req, res) => {
+  res.status(200).send('Ejecutándose desde ' + __dirname);
+});
+
+app.use((req, res) => {
+  res.status(404).send('404 No encontrado');
+});
+
+// levantar servidor
+if (!module.parent) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
 

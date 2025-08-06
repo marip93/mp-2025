@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../base-orm/sequelize-init');
 const { Op, ValidationError } = require('sequelize');
-const { auth } = require('../seguridad/auth');
+const { authenticateJWT } = require('../seguridad/auth');
 
 router.get('/api/peliculas', async function (req, res, next) {
     // #swagger.tags = ['Películas']
@@ -38,7 +38,7 @@ router.get('/api/peliculas', async function (req, res, next) {
         limit: TamanioPagina
     });
 
-    return res.json({ Items: rows, RegistrosTotal: count });
+    return res.json({ Peliculas: rows, RegistrosTotal: count });
 });
 
 router.get('/api/peliculas/:id', async function (req, res, next) {
@@ -156,6 +156,9 @@ router.delete("/api/peliculas/:id", async (req, res) => {
             res.status(404).json({ message: "Película no encontrada" });
             return;
         }
+        await db.peliculas_generos.destroy({
+            where: { IdPelicula: req.params.id }
+        });
         await peli.destroy();
         res.sendStatus(200);
     } catch (err) {
@@ -169,7 +172,7 @@ router.delete("/api/peliculas/:id", async (req, res) => {
 });
 
 // ---------------Seguridad-------------------
-router.get('/api/jwt/peliculas', auth.authenticateJWT, async function (req, res, next) {
+router.get('/api/jwt/peliculas', authenticateJWT, async function (req, res, next) {
     /* #swagger.security = [{
         "bearerAuth1": []
     }] */
