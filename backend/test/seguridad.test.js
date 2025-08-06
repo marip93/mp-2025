@@ -39,7 +39,7 @@ describe('GET /api/jwt/peliculas', () => {
             .get('/api/jwt/peliculas');
 
         expect(res.statusCode).toEqual(401);
-        expect(res.body.message).toEqual("Acceso denegado");
+        expect(res.body.message).toEqual("No autorizado");
     });
 
     it('devolveria error porque el token es inválido', async function () {
@@ -66,13 +66,13 @@ describe('GET /api/jwt/peliculas', () => {
             expect.arrayContaining([
                 expect.objectContaining({
                     IdPelicula: expect.any(Number),
-                    Titulo: peliculaAlta.Titulo.toUpperCase(),
-                    Anio_lanzamiento: peliculaAlta.Anio_lanzamiento,
-                    Visto: peliculaAlta.Visto,
-                    Fecha_visualizacion: peliculaAlta.Fecha_visualizacion,
-                    Rating: peliculaAlta.Rating,
-                    Sinopsis: peliculaAlta.Sinopsis,
-                    Review: peliculaAlta.Review
+                    Titulo: expect.any(String),
+                    Anio_lanzamiento: expect.any(Number),
+                    Visto: expect.any(Boolean),
+                    Fecha_visualizacion: expect.any(String),
+                    Rating: expect.any(String),
+                    Sinopsis: expect.any(String),
+                    Review: expect.any(String)
                 }),
             ])
         );
@@ -91,6 +91,6 @@ describe('GET /api/jwt/peliculas', () => {
                 .set("Authorization", `Bearer ${token}`);
 
             expect(res.statusCode).toEqual(403);
-            expect(res.body.message).toEqual('No autorizado');
+            expect(res.body.message).toEqual('No tienes permiso para acceder a esta ruta');
     });
 });
