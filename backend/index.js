@@ -18,6 +18,9 @@ app.use(generospeliculasRouter);
 const peliculasRouter = require('./routes/peliculas');
 app.use(peliculasRouter);
 
+const seguridadRoutes = require('./routes/seguridad');
+app.use(seguridadRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Hola Mundo');
