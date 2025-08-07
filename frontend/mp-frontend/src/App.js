@@ -1,10 +1,13 @@
 import React from "react";
-import { Inicio } from "./components/Inicio";
+import "./App.css";
+import { GenerosPeliculas } from "./components/GenerosPeliculas";
 
 function App() {
   return (
     <>
-    <Inicio/>
+      <div className="divBody">
+        <GenerosPeliculas/>
+      </div>
     </>
   );
 }
