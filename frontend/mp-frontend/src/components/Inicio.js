@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Inicio() {
   return (
@@ -8,10 +9,10 @@ function Inicio() {
       <p>Pagina realizada con las siguientes tecnologias:</p>
       <p><b>Backend:</b> NodeJS, Express, WebApiRest, Swagger, Sequelize, Sqlite y capas en JavaScript.</p>
       <p><b>Frontend:</b> Single Page Application, HTML, CSS, Bootstrap, NodeJS, JavaScript y React.</p>
-      <button className="btn btn-lg btn-primary">
-        <i className="fa fa-search"> </i>
-        Ver Generos Peliculas
-      </button>
+
+      <Link to="/generospeliculas" className="btn btn-lg btn-primary">
+        <i className="fa fa-search"> </i> Ver Generos Peliculas
+      </Link>
     </div>
   );
 }
